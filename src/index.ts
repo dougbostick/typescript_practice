@@ -33,6 +33,7 @@ const course: {
     currentLesson: string;
     learningBasicTypes?: boolean;
     typesLearned?: string[];
+    //this is a tuple definition by placing types inside array brackets, ordering matters
     courseInfo: [number, string];
 } = {
     name: 'Switching to Typescript',
@@ -46,3 +47,37 @@ course.typesLearned = ['number', 'object', 'boolean', 'string', 'array']
 //by specifying string in the typesLearned array, TS will apply the string prototype and auto-complete string methods when referencing elements in the array
 
 course.typesLearned[0].toUpperCase();
+
+enum FileExtension {
+    JAVASCRIPT = '.js',
+    TYPESCRIPT = '.ts',
+    RUST = '.rs',
+    PYTHON = '.py',
+}
+
+const value = FileExtension.JAVASCRIPT;
+
+console.log(value);
+
+const createFileName = (name: string, extension: FileExtension) => {
+    return name + extension;
+}
+
+const fileName = createFileName('index', FileExtension.TYPESCRIPT);
+
+console.log(fileName)
+
+type MyUnionType = string | number | boolean;
+
+const convertToString = (value: MyUnionType) => {
+    return `${value}`;
+}
+
+let myValue : MyUnionType;
+
+myValue = 55;
+
+console.log(convertToString(myValue));
+myValue = true;
+
+console.log(convertToString(myValue));

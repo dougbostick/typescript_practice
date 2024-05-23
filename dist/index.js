@@ -28,3 +28,25 @@ const course = {
 course.learningBasicTypes = true;
 course.typesLearned = ['number', 'object', 'boolean', 'string', 'array'];
 course.typesLearned[0].toUpperCase();
+var FileExtension;
+(function (FileExtension) {
+    FileExtension["JAVASCRIPT"] = ".js";
+    FileExtension["TYPESCRIPT"] = ".ts";
+    FileExtension["RUST"] = ".rs";
+    FileExtension["PYTHON"] = ".py";
+})(FileExtension || (FileExtension = {}));
+const value = FileExtension.JAVASCRIPT;
+console.log(value);
+const createFileName = (name, extension) => {
+    return name + extension;
+};
+const fileName = createFileName('index', FileExtension.TYPESCRIPT);
+console.log(fileName);
+const convertToString = (value) => {
+    return `${value}`;
+};
+let myValue;
+myValue = 55;
+console.log(convertToString(myValue));
+myValue = true;
+console.log(convertToString(myValue));
