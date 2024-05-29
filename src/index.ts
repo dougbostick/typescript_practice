@@ -67,6 +67,8 @@ const fileName = createFileName('index', FileExtension.TYPESCRIPT);
 
 console.log(fileName)
 
+//types store custom variable types
+
 type MyUnionType = string | number | boolean;
 
 const convertToString = (value: MyUnionType) => {
@@ -81,3 +83,66 @@ console.log(convertToString(myValue));
 myValue = true;
 
 console.log(convertToString(myValue));
+
+//function types
+
+//declare paramaters and return value in TS
+type AddFunction = (numbers: number[], toString?: boolean, printResult?: boolean, printMessage?: string) => number | string | void;
+
+//apply function type params and return val to specific function, logic inside function is applied here
+const addAll: AddFunction = (nums, toString, printResult, printMessage) => {
+    const res = nums.reduce((prev, cur) => prev + cur, 0);
+    if(!printResult) return toString ? res.toString() : res;
+
+    console.log(printMessage || 'Result:', toString ? res.toString() : res);
+}
+
+
+import axios from 'axios';
+import { SortOrder } from './types';
+
+import type { ResponseData, Product, UserInput, ModifiedProduct } from './types';
+
+const fetchData = async (): Promise<ResponseData> => {
+    const { data } = await axios('https://dummyjson.com/products?limit=10');
+
+    return data as ResponseData;
+}
+
+const sortData = (products: Product[], order: SortOrder) => {
+    switch (order) {
+        case SortOrder.ASC:
+            return [...products].sort((a, b) => a.price - b.price);
+        case SortOrder.DESC:
+            return [...products].sort((a, b) => b.price - a.price);
+        default:
+            return products;
+    }
+}
+
+const scrape = async (input: UserInput): Promise<Product[] | ModifiedProduct[]> => {
+
+    const data = await fetchData();
+
+    const sorted = sortData(data.products, input.sort as SortOrder);
+
+    if (input.removeImages){
+        return sorted.map((item) => {
+            const { images, ...rest} = item;
+
+            return rest;
+        });
+    }
+
+    return sorted;
+}
+
+const main = async () => {
+    const INPUT: UserInput<true> = { sort: 'ascending', removeImages: true};
+
+    const result = await scrape(INPUT);
+
+    console.log(result);
+}
+
+main();
